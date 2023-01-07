@@ -1,2 +1,2 @@
 # ScalaDayDayUp
- Scala Day Day Up
+ Scale day day up
