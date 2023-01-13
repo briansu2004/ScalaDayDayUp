@@ -20,7 +20,23 @@ lazy val root = (project in file("."))
       // https://mvnrepository.com/artifact/org.apache.spark/spark-sql
       "org.apache.spark" %% "spark-sql"    % sparkVersion,
       // https://www.scalatest.org/
-      "org.scalatest"    %% "scalatest"    % "3.2.14" % Test,
+
+        // Optional Dependency with magnolia module (Auto derivation)
+      "dev.zio" %% "zio-config-magnolia" % "3.0.7",
+
+      // Optional Dependency with refined module (Integration with refined library)
+      "dev.zio" %% "zio-config-refined" % "3.0.7",
+
+      // Optional Dependency with typesafe module (HOCON/Json source)
+       "dev.zio" %% "zio-config-typesafe" % "3.0.7",
+
+      // Optional Dependency with yaml module (Yaml source)
+      "dev.zio" %% "zio-config-yaml" % "3.0.7",
+
+      // Optional Dependency for a random generation of a config
+      "dev.zio" %% "zio-config-gen" % "3.0.7",
+
+      "org.scalatest" %% "scalatest" % "3.2.14" % Test,
       "dev.zio" %% "zio-test" % "2.0.5" % Test,
       "dev.zio" %% "zio-test-sbt" % "2.0.5" % Test
     )
