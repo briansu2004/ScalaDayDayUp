@@ -10,4 +10,5 @@ lib_managed/
 project/plugins/project/
 src_managed/
 target/
+*.sc
 /src/main/resources/myconfig?.conf

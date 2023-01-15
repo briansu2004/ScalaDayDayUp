@@ -15,7 +15,15 @@ object SimpleApp extends ZIOAppDefault {
 
   val filePath: String = "src/main/resources/data.csv"
 
-  def read: SIO[DataFrame] = SparkSession.read.schema[Person].withHeader.withDelimiter(";").csv(filePath)
+  def acquireFile = ZIO.succeed(println(">>> Acquiring file")) *> ZIO.succeed(filePath)
+  def releaseFile(file: String) = ZIO.succeed(println(">>> Closing file: " + file))
+  def read: SIO[DataFrame] = {
+    ZIO.acquireReleaseWith(acquireFile)(releaseFile) { file =>
+      ZIO.succeed(println("Reading the content from the file: " + file)) *>
+        ZIO.succeed("One ring to rule them all!")
+    }
+    SparkSession.read.schema[Person].withHeader.withDelimiter(";").csv(filePath)
+  }
   def transform(inputDs: DataFrame): Dataset[Person] = inputDs.as[Person]
 
   def output(transformedDs: Dataset[Person]): Task[Dataset[Person]] = ZIO.succeed(transformedDs)
@@ -25,8 +33,12 @@ object SimpleApp extends ZIOAppDefault {
   val job = {
     for {
       config <- getConfig[MyConfig]
+
+
       maybePeople <- pipeline.run
       _ <- maybePeople.foreach(x => println(x))
+
+
     } yield {
       config.sourceCsvFilePath
     }
