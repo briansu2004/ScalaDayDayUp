@@ -22,20 +22,19 @@ object SimpleApp extends ZIOAppDefault {
 
   val pipeline = experimental.Pipeline(read, transform, output)
 
-  val job: ZIO[SparkSession, Throwable, Unit] = {
-    (for {
+  val job = {
+    for {
       config <- getConfig[MyConfig]
-
       maybePeople <- pipeline.run
       _ <- maybePeople.foreach(x => println(x))
     } yield {
-      println(config.sourceCsvFilePath)
-    }).provideLayer(ConfigInMem.live)
+      config.sourceCsvFilePath
+    }
   }
 
   // Use "yarn" in Cloud / Server side
   // User "localAllNodes" in local side and test code
   private val session = SparkSession.builder.master(yarn).appName("app").asLayer
 
-  override def run: ZIO[ZIOAppArgs, Any, Any] = job.provide(session)
+  override def run: ZIO[ZIOAppArgs, Any, Any] = job.provide(session, ConfigInMem.live)
 }

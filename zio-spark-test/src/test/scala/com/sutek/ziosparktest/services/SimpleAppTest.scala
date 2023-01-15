@@ -1,5 +1,6 @@
 package com.sutek.ziosparktest.services
 
+import com.sutek.ziopsparktest.config.ConfigInMem
 import com.sutek.ziosparktest.services.SimpleApp._
 import zio.config._
 import zio.config.magnolia._
@@ -13,7 +14,7 @@ object SimpleAppTest extends ZIOSpecDefault {
     test("SimpleApp works") {
       val session = SparkSession.builder.master(localAllNodes).appName("app").asLayer
       for {
-        _ <- job.provide(session)
+        _ <- job.provide(session, ConfigInMem.live)
       } yield {
         assertTrue(0 == 1 - 1)
       }
