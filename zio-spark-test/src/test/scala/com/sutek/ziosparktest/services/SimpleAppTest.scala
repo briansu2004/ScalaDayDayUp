@@ -1,6 +1,6 @@
 package com.sutek.ziosparktest.services
 
-import com.sutek.ziopsparktest.config.ConfigInMem
+import com.sutek.ziosparktest.config.ConfigInMem
 import com.sutek.ziosparktest.services.SimpleApp._
 import zio.config._
 import zio.config.magnolia._

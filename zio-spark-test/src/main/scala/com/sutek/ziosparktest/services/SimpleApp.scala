@@ -1,6 +1,6 @@
 package com.sutek.ziosparktest.services
 
-import com.sutek.ziopsparktest.config.{ConfigInMem, MyConfig}
+import com.sutek.ziosparktest.config.{ConfigInMem, MyConfig}
 import zio._
 import zio.config.getConfig
 import zio.spark.experimental
@@ -15,17 +15,15 @@ object SimpleApp extends ZIOAppDefault {
 
   val filePath: String = "src/main/resources/data.csv"
 
-  def read: SIO[DataFrame] = SparkSession.read.schema[Person].withHeader.withDelimiter(";").csv(filePath)
+  def read(srcFilePath: String): SIO[DataFrame] = SparkSession.read.schema[Person].withHeader.withDelimiter(";").csv(srcFilePath)
   def transform(inputDs: DataFrame): Dataset[Person] = inputDs.as[Person]
 
   def output(transformedDs: Dataset[Person]): Task[Dataset[Person]] = ZIO.succeed(transformedDs)
 
-  val pipeline = experimental.Pipeline(read, transform, output)
-
   val job = {
     for {
       config <- getConfig[MyConfig]
-      maybePeople <- pipeline.run
+      maybePeople <- experimental.Pipeline(read(config.sourceCsvFilePath), transform, output).run
       _ <- maybePeople.foreach(x => println(x))
     } yield {
       config.sourceCsvFilePath
