@@ -30,6 +30,7 @@ object SimpleApp extends ZIOAppDefault {
     } yield {
       config.sourceCsvFilePath
     }
+
   }
 
   // Use "yarn" in Cloud / Server side
