@@ -30,11 +30,8 @@ object SimpleApp extends ZIOAppDefault {
     } yield {
       config.sourceCsvFilePath
     }
-
   }
-
-  // Use "yarn" in Cloud / Server side
-  // User "localAllNodes" in local side and test code
+  
   private val session = SparkSession.builder.master(yarn).appName("app").asLayer
 
   override def run: ZIO[ZIOAppArgs, Any, Any] = job.provide(session, ConfigInMem.live)
