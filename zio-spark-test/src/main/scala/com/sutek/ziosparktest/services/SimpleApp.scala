@@ -31,7 +31,7 @@ object SimpleApp extends ZIOAppDefault {
       config.sourceCsvFilePath
     }
   }
-  
+
   private val session = SparkSession.builder.master(yarn).appName("app").asLayer
 
   override def run: ZIO[ZIOAppArgs, Any, Any] = job.provide(session, ConfigInMem.live)
