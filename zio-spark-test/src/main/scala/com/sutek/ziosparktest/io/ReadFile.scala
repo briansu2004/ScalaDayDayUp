@@ -12,4 +12,8 @@ object ReadFile {
 
   val readFileLines = (filePath: String) =>
     ZIO.fromAutoCloseable(ZIO.attemptBlockingIO(Source.fromFile(filePath))).map(_.getLines()).map(_.mkString("\n"))
+
+  val readResourceFileLines = (filePath: String) =>
+    ZIO.fromAutoCloseable(ZIO.attemptBlockingIO(Source.fromResource(filePath))).map(_.getLines()).map(_.mkString("\n"))
+
 }
