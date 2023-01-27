@@ -32,5 +32,5 @@ object SimpleApp extends ZIOAppDefault {
 
   private val session = SparkSession.builder.master(yarn).appName("app").asLayer
 
-  override def run: ZIO[ZIOAppArgs, Any, Any] = job.provide(session, ConfigInMem.live)
+  override def run = job.provide(session, ConfigInMem.live, Scope.default)
 }
