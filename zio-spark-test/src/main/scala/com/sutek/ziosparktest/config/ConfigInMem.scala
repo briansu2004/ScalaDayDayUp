@@ -1,10 +1,8 @@
-package com.sutek.ziopsparktest.config
+package com.sutek.ziosparktest.config
 
 import zio.config._
 import zio.config.magnolia._
-import zio.config.typesafe.{TypesafeConfigSource, _}
-
-import java.io.File
+import zio.config.typesafe.TypesafeConfigSource
 
 final case class MyConfig(
                           sourceCsvFilePath: String //Refined[String, NonEmpty]
