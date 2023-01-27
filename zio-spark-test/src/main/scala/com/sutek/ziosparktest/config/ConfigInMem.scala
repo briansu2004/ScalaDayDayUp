@@ -9,8 +9,8 @@ final case class MyConfig(
                          )
 
 object ConfigInMem {
-  private val confLayer = TypesafeConfigSource.fromHoconString("sourceCsvFilePath = \"src/main/resources/data.csv\"").toLayer
-  //private val confLayer = TypesafeConfigSource.fromHoconFile(new File("c:/tmp/myconfig.conf")).toLayer
+  //private val confLayer = TypesafeConfigSource.fromHoconString("enableAlert = true").toLayer
+  private val confLayer = TypesafeConfigSource.fromHoconFile(new File("src/main/resources/myconfig.conf")).toLayer
 
   // private val desc = descriptor[MyConfig]
   private val desc : ConfigDescriptor[MyConfig] = descriptor[MyConfig]
