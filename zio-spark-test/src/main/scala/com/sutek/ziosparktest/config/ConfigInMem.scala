@@ -18,17 +18,6 @@ object ConfigInMem {
 
   //  val live = ZLayer.fromZIO(readFileLines("src/main/resources/myconfig.conf").map(TypesafeConfigSource
   //    .fromHoconString)) >>> configLayer(descriptor[MyConfig])
-
-  /* read from HoconString works
-  val hocon =
-    s"""
-      {
-         sourceCsvFilePath : src/main/resources/data.csv
-      }
-    """
-  val live = TypesafeConfigSource.fromHoconString(hocon).toLayer >>> configLayer(descriptor[MyConfig])
-  */
-
-  // read from HoconFile
+  
   val live = TypesafeConfigSource.fromHoconFile(new File("src/main/resources/myconfig.conf")).toLayer >>> configLayer(descriptor[MyConfig])
 }
