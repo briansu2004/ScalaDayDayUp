@@ -36,6 +36,8 @@ lazy val root = (project in file("."))
       // Optional Dependency for a random generation of a config
       "dev.zio" %% "zio-config-gen" % "3.0.7",
 
+      "dev.zio" %% "zio-config-refined" % "3.0.7",
+
       "org.scalatest" %% "scalatest" % "3.2.14" % Test,
       "dev.zio" %% "zio-test" % "2.0.5" % Test,
       "dev.zio" %% "zio-test-sbt" % "2.0.5" % Test
