@@ -23,7 +23,7 @@ object SimpleApp extends ZIOAppDefault {
   val job = {
     for {
       config <- getConfig[MyConfig]
-      maybePeople <- experimental.Pipeline(read(config.sourceCsvFilePath), transform, output).run
+      maybePeople <- experimental.Pipeline(read(config.sourceCsvFilePath.value), transform, output).run
       _ <- maybePeople.foreach(x => println(x))
     } yield {
       config.sourceCsvFilePath
@@ -32,5 +32,5 @@ object SimpleApp extends ZIOAppDefault {
 
   private val session = SparkSession.builder.master(yarn).appName("app").asLayer
 
-  override def run: ZIO[ZIOAppArgs, Any, Any] = job.provide(session, ConfigInMem.live)
+  override def run: ZIO[ZIOAppArgs, Any, Any] = job.provide(session, ConfigInMem.live, Scope.default)
 }
